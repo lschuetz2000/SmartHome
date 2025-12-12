@@ -1,0 +1,3 @@
+
+IP: 127.0.0.1 HostName: kubernetes.docker.internal
+IP: 127.0.0.1 HostName: kubernetes.docker.internal

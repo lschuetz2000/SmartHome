@@ -1,0 +1,10 @@
+{
+    "java.project.sourcePaths": [
+        "."
+    ],
+
+    "java.project.referencedLibraries": [
+        "backend/java/lib/jsoup.jar"
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
+}
