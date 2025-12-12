@@ -1,8 +1,8 @@
-package webserver.controllers;
+package smarthome.controllers;
 
 import java.util.ArrayList;
 
-import webserver.models.User;
+import smarthome.models.User;
 
 public class UserController{
 

@@ -1,4 +1,4 @@
-package webserver.database;
+package smarthome.database;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.lang.AutoCloseable;
 
 public class DatabaseConnector implements AutoCloseable{
-    private String url = "jdbc:mysql://localhost:3306/webserver";
+    private String url = "jdbc:mysql://localhost:3306/smarthome";
     private String userName = "Admin";
     private String password = "Admin123";
 

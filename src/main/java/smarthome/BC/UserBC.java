@@ -1,20 +1,21 @@
-package webserver.BC;
+package smarthome.BC;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.util.ArrayList;
 
-import webserver.exceptions.UserNotFoundException;
-import webserver.database.DatabaseConnector;
-import webserver.database.DatabaseOperator;
-import webserver.util.ErrorHandler;
-import webserver.models.User;
+import smarthome.exceptions.UserNotFoundException;
+import smarthome.database.DatabaseConnector;
+import smarthome.database.DatabaseOperator;
+import smarthome.util.ErrorHandler;
+import smarthome.models.User;
 
 public class UserBC{
 
     public void writeUser(){
         try(Connection connection = new DatabaseConnector().getConnection()){
+            DatabaseOperator operator = new DatabaseOperator(connection);
             
         } catch (SQLException e){
             new ErrorHandler().printToConsoleAddLog(e);
@@ -25,12 +26,7 @@ public class UserBC{
         ResultSet rs = null;
         ArrayList<User> users = null;
         
-        try(DatabaseOperator operator = new DatabaseOperator()){
-            rs = new DatabaseOperator().getUsers(user);
-        } catch (SQLException e){
-            new ErrorHandler().printToConsoleAddLog(e);
-        }
         
-        return 
+        return users;
     }
 }

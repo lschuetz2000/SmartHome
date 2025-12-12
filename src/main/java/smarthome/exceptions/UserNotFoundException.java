@@ -1,4 +1,4 @@
-package webserver.exceptions;
+package smarthome.exceptions;
 
 public class UserNotFoundException extends Exception{
     public UserNotFoundException(){

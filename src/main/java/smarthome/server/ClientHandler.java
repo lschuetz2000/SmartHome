@@ -1,7 +1,7 @@
-package webserver.server;
+package smarthome.server;
 
-import webserver.managers.ScreenManager;
-import webserver.util.ErrorHandler;
+import smarthome.managers.ScreenManager;
+import smarthome.util.ErrorHandler;
 
 import java.net.*;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package webserver.server;
+package smarthome.server;
 
 import java.io.*;
 import java.net.*;
@@ -8,11 +8,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import webserver.dialogs.*;
-import webserver.managers.LogFileManager;
-import webserver.managers.LogFileManager.Log;
-import webserver.managers.WhitelistManager;
-import webserver.util.ErrorHandler;
+import smarthome.dialogs.*;
+import smarthome.managers.LogFileManager;
+import smarthome.managers.LogFileManager.Log;
+import smarthome.managers.WhitelistManager;
+import smarthome.util.ErrorHandler;
 
 public class Server{
     private static Server instance;

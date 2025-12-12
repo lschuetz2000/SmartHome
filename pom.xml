@@ -3,8 +3,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>WebServer</groupId>
-    <artifactId>WebServer</artifactId>
+    <groupId>SmartHome</groupId>
+    <artifactId>SmartHome</artifactId>
     <version>1.0</version>
 
     <properties>
@@ -14,11 +14,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>src.main.java.webserver.lib.jsoup</groupId>
+            <groupId>src.main.java.smarthome.lib.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>C:/Projects/WebServer/src/main/java/webserver/lib/jsoup.jar</systemPath>
+            <systemPath>C:/Projects/SmartHome/src/main/java/smarthome/lib/jsoup.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>at.favre.lib</groupId>
@@ -51,7 +51,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>webserver.WebServer</mainClass>
+              <mainClass>smarthome.SmartHome</mainClass>
             </manifest>
           </archive>
         </configuration>

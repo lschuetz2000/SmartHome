@@ -1,11 +1,11 @@
-package webserver.database;
+package smarthome.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 
-import webserver.models.User;
+import smarthome.models.User;
 
 public class DatabaseOperator{
     

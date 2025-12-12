@@ -1,4 +1,4 @@
-package webserver.models;
+package smarthome.models;
 
 public class User {
 

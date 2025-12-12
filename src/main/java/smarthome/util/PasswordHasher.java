@@ -1,4 +1,4 @@
-package webserver.util;
+package smarthome.util;
 
 public class PasswordHasher{
 
