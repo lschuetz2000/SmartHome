@@ -1,5 +1,5 @@
 package smarthome.server;
 
-public class ServerState {
+public class Router {
     
 }

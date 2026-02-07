@@ -33,8 +33,9 @@ public class Dialog implements Runnable{
         int port;
         int backlog;
 
-        if (args.length == 1){
+        if (args.length == 2){
             String mode = args[0];
+            String certificatePassword = args[1];
 
             switch (mode){
                 case "start":
@@ -46,7 +47,7 @@ public class Dialog implements Runnable{
                     server.setBacklog(backlog);
                     server.setPort(port); 
                     server.setIP(IP);  
-                    server.start();                
+                    server.start(certificatePassword);                
                 break;
 
                 case "startDefineProperties":
@@ -82,7 +83,7 @@ public class Dialog implements Runnable{
                             server.setBacklog(backlog);
                             server.setPort(port);
                             server.setIP(IP);
-                            server.start();                    
+                            server.start(certificatePassword);                    
                         }
 
                         scanner.close();
@@ -96,7 +97,7 @@ public class Dialog implements Runnable{
                 break;
 
                 case "help":
-                    System.out.println("Command pattern: java -jar ./target/SmartHome-1.0.jar + 'option'. Options: start, startDefineProperties");
+                    System.out.println("Command pattern: java -jar ./target/SmartHome-1.0.jar + 'option' + 'SSLCertificate password'. Options: start, startDefineProperties");
                 break;
             }
         } else {

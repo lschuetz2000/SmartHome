@@ -23,12 +23,12 @@ public class ClientHandler implements Runnable{
     
     @Override
     public void run() {
-        try{
+        try(
+            OutputStream output = socket.getOutputStream();
+            InputStream input = socket.getInputStream();
+        ){
 
             while (awaitResponse && !Thread.interrupted()){
-
-                OutputStream output = socket.getOutputStream();
-                InputStream input = socket.getInputStream();
 
                 writer = new PrintWriter(output);
                 reader = new BufferedReader(new InputStreamReader(input));   
@@ -56,6 +56,7 @@ public class ClientHandler implements Runnable{
                 for (int i = 0; i < request.size(); i++){
                     System.out.println(request.get(i));
                 }
+
                 if (request.size() != 0){
                     String line0 = request.get(0);
                     
@@ -65,7 +66,7 @@ public class ClientHandler implements Runnable{
                         sendFile(requestedFile,output);
                     } else if (line0.contains("POST")){
                         if (line0.contains("fW6zTqJ0nPBmKv19aXcdLryOUE38gZsj")){
-                            
+                            System.out.println();
                         }
                     }
                 }
@@ -77,7 +78,7 @@ public class ClientHandler implements Runnable{
 
     private void sendFile(String fileName, OutputStream output){
         String contentType = "";
-        String endOfFileName = "";
+        String fileType = "";
         boolean fileFound = true;
 
         if (fileName.equals("index.html")){
@@ -86,33 +87,53 @@ public class ClientHandler implements Runnable{
 
         if (fileName.contains(".")){
 
-            endOfFileName = fileName.split("\\.")[1];
+            fileType = fileName.split("\\.")[1];
             
-            switch (endOfFileName) {
+            switch (fileType) {
                 case "html":
-                    contentType = "text/html; charset=UTF-8s";    
+                    contentType = "text/html; charset=UTF-8s";
+
+                    if (fileName.contains("/html/")){
+                        fileName = fileName.replace("/html/","");
+                    }    
                 break;
             
                 case "css":
                     contentType = "text/css";
+
+                    if (fileName.contains("/css/")){
+                        fileName = fileName.replace("/css/","");
+                    }
                 break;
     
-                case "javascript":
+                case "js":
                     contentType = "application/javascript";
+
+                    if (fileName.contains("/js/")){
+                        fileName = fileName.replace("/js/","");
+                    }
                 break;
     
                 case "png":
                     contentType = "image/png";
+
+                    if (fileName.contains("/png/")){
+                        fileName = fileName.replace("/png/","");
+                    }
                 break;
     
                 case "jpeg":
                     contentType = "image/jpeg";
+
+                    if (fileName.contains("/jpeg/")){
+                        fileName = fileName.replace("/jpeg/","");
+                    }
                 break;
             }
 
         } else if (fileName.equals("/")){
             contentType = "text/html; charset=UTF-8s";
-            endOfFileName = "html";
+            fileType = "html";
             fileName = "login.html";
         } else {    
             fileFound = false;
@@ -121,7 +142,7 @@ public class ClientHandler implements Runnable{
         byte [] content = null;
 
         try {
-            Path path = Path.of(".\\frontend\\" + endOfFileName + "\\" + fileName);
+            Path path = Path.of(".\\frontend\\" + fileType + "\\" + fileName);
             content = Files.readAllBytes(path);
         } catch (Exception e){
             fileFound = false;    

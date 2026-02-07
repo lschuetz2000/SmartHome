@@ -4,9 +4,14 @@ import java.io.*;
 import java.net.*;
 import java.lang.Thread;
 import java.time.*;
-import java.net.ServerSocket;
-import java.net.Socket;
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
+import javax.net.ssl.KeyManagerFactory;
 import java.util.ArrayList;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 
 import smarthome.dialogs.*;
 import smarthome.managers.LogFileManager;
@@ -23,7 +28,7 @@ public class Server{
     private int backlog; 
     private int clientCounter;
     
-    private ServerSocket serverSocket;
+    private SSLServerSocket serverSocket;
 
     private ArrayList<Client> clients = new ArrayList<Client>();
     private ArrayList<Thread> threads = new ArrayList<Thread>();
@@ -46,16 +51,21 @@ public class Server{
         return instance;
     }
 
-    public void start(){
-        try{
-            if (ON == false){
+    public void start(String SSLCertificatePassword){
+        if (ON == false){
+            try{
+                
+                KeyStore keyStore = KeyStore.getInstance("PKCS12");
+                FileInputStream inputStream = new FileInputStream("./certificates/SSLCertificate.pfx");
 
-                serverSocket = new ServerSocket();
+                keyStore.load(inputStream, SSLCertificatePassword.toCharArray());
+
+                serverSocket = (SSLServerSocket) SSLServerSocketFactory.getDefault().createServerSocket();
                 InetSocketAddress socketAddress = new InetSocketAddress(IP, port);
                 serverSocket.bind(socketAddress);
-
+      
                 System.out.println("Server listening on port " + port);
-                System.out.println("Address: " + serverSocket.getInetAddress().getHostAddress());
+                System.out.println("Address: "  + serverSocket.getInetAddress().getHostAddress());
 
                 ON = true;    
 
@@ -91,19 +101,25 @@ public class Server{
                         new LogFileManager(Log.LOGIN).addLog(logNotWhitelisted);
                     }
                 }
-            } else {
-                System.out.println("Server already started");
-            }  
-        } catch(SocketException e){
-            for (int i = 0; i < threads.size();i++){
-                Thread thread = threads.get(i);
-                thread.interrupt();
+              
+            } catch(SocketException e){
+                for (int i = 0; i < threads.size();i++){
+                    Thread thread = threads.get(i);
+                    thread.interrupt();
+                }
+                ON = false;    
+                System.out.println("Server closed");
+            } catch(KeyStoreException e){
+                new ErrorHandler().printToConsoleAddLog(e);
+            } catch(CertificateException e){
+                new ErrorHandler().printToConsoleAddLog(e);
+            } catch(NoSuchAlgorithmException e){
+                new ErrorHandler().printToConsoleAddLog(e);
+            } catch(IOException e){
+                new ErrorHandler().printToConsoleAddLog(e);
             }
-            ON = false;    
-            System.out.println("Server closed");
-        } catch(IOException e){
-            System.out.println("Server exception");
-            new ErrorHandler().printToConsoleAddLog(e);
+        } else {
+                System.out.println("Server already started");
         }
     }   
 
