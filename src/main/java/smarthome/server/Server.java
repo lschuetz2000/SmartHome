@@ -7,10 +7,14 @@ import java.time.*;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+
 import java.util.ArrayList;
+import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 
 import smarthome.dialogs.*;
@@ -56,14 +60,18 @@ public class Server{
             try{
                 
                 KeyStore keyStore = KeyStore.getInstance("PKCS12");
-                FileInputStream inputStream = new FileInputStream("./certificates/SSLCertificate.pfx");
+                try (FileInputStream inputStream = new FileInputStream("./certificates/SSLLocalHostTestCertificate.pxf")){
+                    keyStore.load(inputStream, SSLCertificatePassword.toCharArray());
+                }
 
-                keyStore.load(inputStream, SSLCertificatePassword.toCharArray());
+                KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+                keyManagerFactory.init(keyStore, SSLCertificatePassword.toCharArray());
 
-                serverSocket = (SSLServerSocket) SSLServerSocketFactory.getDefault().createServerSocket();
-                InetSocketAddress socketAddress = new InetSocketAddress(IP, port);
-                serverSocket.bind(socketAddress);
-      
+                SSLContext sslContext = SSLContext.getInstance("TLS");  
+                sslContext.init(keyManagerFactory.getKeyManagers(), null, null);
+                
+                serverSocket = (SSLServerSocket) sslContext.getServerSocketFactory().createServerSocket(port, 10, InetAddress.getByName("127.0.0.1"));
+
                 System.out.println("Server listening on port " + port);
                 System.out.println("Address: "  + serverSocket.getInetAddress().getHostAddress());
 
@@ -108,12 +116,16 @@ public class Server{
                     thread.interrupt();
                 }
                 ON = false;    
-                System.out.println("Server closed");
+                new ErrorHandler().printToConsoleAddLog(e);
             } catch(KeyStoreException e){
                 new ErrorHandler().printToConsoleAddLog(e);
             } catch(CertificateException e){
                 new ErrorHandler().printToConsoleAddLog(e);
-            } catch(NoSuchAlgorithmException e){
+            } catch(UnrecoverableKeyException e){
+                new ErrorHandler().printToConsoleAddLog(e);
+            } catch(KeyManagementException e) {
+                new ErrorHandler().printToConsoleAddLog(e);        
+            } catch(NoSuchAlgorithmException e){    
                 new ErrorHandler().printToConsoleAddLog(e);
             } catch(IOException e){
                 new ErrorHandler().printToConsoleAddLog(e);

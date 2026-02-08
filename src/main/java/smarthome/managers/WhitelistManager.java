@@ -12,7 +12,7 @@ import smarthome.util.ErrorHandler;
 public class WhitelistManager{
 
     private File whitelistFile;
-    private String path = "./src/main/java/smarthome/security/Whitelist.txt";
+    private String path = "./security/Whitelist.txt";
     
     private FileWriter fileWriter;
 

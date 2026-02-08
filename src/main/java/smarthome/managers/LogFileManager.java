@@ -10,8 +10,8 @@ public class LogFileManager{
 
     private File logFile;
 
-    private String loginLogPath = "./src/main/java/smarthome/logs/LoginLog.txt";
-    private String errorLogPath = "./src/main/java/smarthome/logs/ErrorLog.txt";
+    private String loginLogPath = "./logs/LoginLog.txt";
+    private String errorLogPath = "./logs/ErrorLog.txt";
 
     private FileWriter fileWriter;
 

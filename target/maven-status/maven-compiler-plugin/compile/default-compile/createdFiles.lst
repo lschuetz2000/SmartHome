@@ -5,10 +5,10 @@ smarthome\util\PasswordHasher.class
 smarthome\dialogs\Dialog.class
 smarthome\database\DatabaseConnector.class
 smarthome\server\ClientHandler.class
+smarthome\server\Router.class
 smarthome\server\Server.class
 smarthome\database\DatabaseOperator.class
 smarthome\managers\LogFileManager$1.class
-smarthome\server\ServerState.class
 smarthome\controllers\UserController.class
 smarthome\server\Client.class
 smarthome\managers\LogFileManager$Log.class
